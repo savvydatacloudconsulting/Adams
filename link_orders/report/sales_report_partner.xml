@@ -1,0 +1,77 @@
+<odoo>
+    <template id="sales_report_partner">
+        <t t-call="link_orders.custom_external_layout_standard">
+            <main class="page">
+                <t t-foreach="docs" t-as="o">
+
+            <center><h1>SALES REPORT</h1></center>
+            <br/>
+
+            <!-- Table -->
+            <table class="table table-sm" style=" border: 2px solid black; border-collapse: collapse;">
+                <thead style="background-color: #C4D7E9;">
+                    <tr>
+                        <th style="border: 2px solid black; ">Sr No.</th>
+                        <th style="border: 2px solid black; ">Date</th>
+                        <th style="border: 2px solid black; ">Inv No</th>
+                        <th style="border: 2px solid black; ">Customer Name</th>
+                        <th style="border: 2px solid black; ">Sales</th>
+                        <th style="border: 2px solid black; ">Country</th>
+                        <th style="border: 2px solid black; ">Month</th>
+                        <th style="border: 2px solid black; ">Item Name</th>
+                        <th style="border: 2px solid black; ">QTY / MT</th>
+                        <th style="border: 2px solid black; ">QTY / CTN</th>
+                        <th style="border: 2px solid black; ">Price (USD)</th>
+                        <th style="border: 2px solid black; ">Price (AED)</th>
+                        <th style="border: 2px solid black; ">Value</th>
+                    </tr>             
+
+                </thead>
+                <tbody>
+                    <t t-set="sn" t-value="1"/>
+                    <t t-set="all_sale_invoices" t-value="[]"/>
+                    <t t-foreach="docs" t-as="partner">
+                        <t t-set="all_sale_invoices" t-value="all_sale_invoices + list(partner.sale_order_ids.filtered(lambda so: so.invoice_ids))"/>
+
+                        <!--<t t-set="all_sale_invoices" t-value="all_sale_invoices + partner.sale_order_ids.filtered(lambda so: so.invoice_ids)"/>-->
+                    </t>
+
+                    <t t-foreach="all_sale_invoices" t-as="order">
+                        <t t-foreach="order.invoice_ids" t-as="invoice">
+                            <t t-foreach="invoice.invoice_line_ids" t-as="line">
+                                <tr>
+                                    <td style="border: 2px solid black; padding:10px; text-align:center;"><t t-esc="sn"/></td>
+                                    <td style="border: 2px solid black; padding:10px;"><t t-esc="invoice.invoice_date.strftime('%d/%m/%Y') if invoice.invoice_date else ''"/></td>
+                                    <td style="border: 2px solid black; padding:10px;"><t t-esc="invoice.name"/></td>
+                                    <td style="border: 2px solid black; padding:10px;"><t t-esc="invoice.partner_id.name"/></td>
+                                    <td style="border: 2px solid black; padding:10px;"><t t-esc="order.user_id.name if order.user_id else ''"/></td>
+                                    <td style="border: 2px solid black; padding:10px;"><t t-esc="invoice.partner_id.country_id.name"/></td>
+                                    <td style="border: 2px solid black; padding:10px;"><t t-esc="invoice.invoice_date.strftime('%B') if invoice.invoice_date else ''"/></td>
+                                    <td style="border: 2px solid black; padding:10px;"><t t-esc="line.product_id.name"/></td>
+                                    <td style="border: 2px solid black; padding:10px;">
+                                    <!-- <t t-esc="line.x_qty_mt"/> -->
+                                    </td>
+                                    <td style="border: 2px solid black; padding:10px;"><t t-esc="line.quantity"/></td>
+                                    <td style="border: 2px solid black; padding:10px;">
+                                    <!-- <t t-esc="order.x_rate_in_usd"/> -->
+                                    </td>
+
+                                    <td style="border: 2px solid black; text-align:right; padding:10px;">
+                                    <!-- <t t-esc="order.x_rate_in_aed"/> -->
+                                    </td>
+                                    <td style="border: 2px solid black; text-align:right; padding:10px;"> 
+                                    <!-- <t t-esc="'{:,.2f}'.format(order.x_rate_in_aed * line.quantity)"/> -->
+                                    </td>
+                                </tr>
+                                <t t-set="sn" t-value="sn + 1"/>
+                            </t>
+                        </t>
+                    </t>
+                </tbody>
+            </table>
+
+                </t>
+            </main>
+        </t>
+    </template>
+</odoo>

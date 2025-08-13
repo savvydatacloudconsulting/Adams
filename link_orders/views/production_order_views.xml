@@ -1,0 +1,58 @@
+<odoo>
+   <record id="view_mrp_production_form_inherit_partner" model="ir.ui.view">
+        <field name="name">mrp.production.form.inherit.partner</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_id']" position="before">
+                <field name="x_customer"/>
+                <field name="origin" string="PI number"/>
+            </xpath>
+            <xpath expr="//field[@name='product_qty']" position="attributes">
+                <attribute name="readonly">True</attribute>
+            </xpath>
+
+
+            <header position="inside">
+                <button name="action_approve"
+                        type="object"
+                        string="Approve"
+                        class="oe_highlight"
+                        invisible="is_approved"/>
+                <button name="action_create_bom"
+                        type="object"
+                        string="Create BOM"
+                        class="oe_highlight"/>
+            </header>
+
+            <xpath expr="//page[@name='operations']" position="after">
+                <page string="Production Order Details" name="production_order">
+                    <group>
+                        <group>
+                            <field name="document_reference_number"/>
+                            <field name="x_issue_number"/>
+                            <field name="revision_number"/>
+                            <field name="packing_size"/>
+                            <field name="loading_description"/>
+                            <field name="packing_requirenment"/>
+                            <field name="country_of_origin"/>
+                        </group>
+                        <group>
+                            <field name="pi_order_date"/>
+                            <field name="x_issue_date"/>
+                            <field name="x_revision_date"/>
+                            <field name="delivery_date"/>
+                            <field name="shelf_life"/>
+                            <field name="milk_origin"/>
+                            <field name="product_quality"/>
+                            <field name="x_approved_by" readonly="1"/>
+                            <field name="is_approved" readonly="1"/>
+                            <field name="x_requested_by" readonly="1"/>
+                            <field name="x_issued_by" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

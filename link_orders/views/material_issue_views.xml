@@ -1,0 +1,128 @@
+<odoo>
+    <!-- Action -->
+    <record id="action_material_issue" model="ir.actions.act_window">
+        <field name="name">Material Issues</field>
+        <field name="res_model">material.issue</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Bind action to menu -->
+    <menuitem id="menu_material_issue_items" 
+              name="Material Issues" 
+              parent="mrp.menu_mrp_bom" 
+              action="action_material_issue"
+              sequence="10"/>
+
+    <!-- list View -->
+    <record id="view_material_issue_tree" model="ir.ui.view">
+        <field name="name">material.issue.list</field>
+        <field name="model">material.issue</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="lor_number"/>
+                <field name="production_order_numer"/>
+                <field name="date"/>
+                <field name="x_issue_number"/>
+                <field name="x_issue_date"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_material_issue_form" model="ir.ui.view">
+        <field name="name">material.issue.form</field>
+        <field name="model">material.issue</field>
+        <field name="arch" type="xml">
+            <form string="Material Issue">
+                <!-- ✅ HEADER ACTION BUTTONS -->
+                <header>
+                    <button name="action_approve"
+                            type="object"
+                            string="Approve"
+                            class="oe_highlight"/>
+
+                    <button name="action_confirm"
+                            type="object"
+                            string="Confirm"
+                            class="oe_highlight"/>
+
+                    <button name="action_create_finished_goods_transfer"
+                            string="Create Finished Goods Transfer"
+                            type="object"
+                            class="btn-primary"/>
+                </header>
+
+                <sheet>
+                    <!-- ✅ SMART BUTTONS -->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_finished_goods_picking"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-industry"
+                                string="Finished Goods Transfer"
+                                widget="statinfo"
+                                >
+                                <!-- invisible="'finished_goods_picking_id', '!=', False" -->
+                          
+                        </button>
+
+                       
+                    </div>
+
+                    <!-- ✅ KEEP THE FIELD INVISIBLE -->
+                    <field name="finished_goods_picking_id" invisible="1"/>
+
+                    <!-- ✅ MAIN FORM CONTENT -->
+                    <group>
+                        <group>
+                            <field name="lor_number"/>
+                            <field name="x_customer"/>
+                            <field name="x_brand"/>
+                            <field name="production_order_numer"/>
+                            <field name="product_tmpl_id"/>
+                            <field name="product_qty"/>
+                            <field name="pi_number" readonly="1"/>
+                            <field name="pi_date"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="code"/>
+                            <field name="milk_origin"/>
+                            <field name="x_issue_number"/>
+                            <field name="x_issue_date"/>
+                            <field name="revision_no"/>
+                            <field name="x_revision_date"/>
+                        </group>
+                    </group>
+
+                    
+
+                    <notebook>
+                        <page string="Materials">
+                            <field name="bom_line_ids">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="product_qty"/>
+                                    <field name="return_to_store"/>
+                                    <field name="utilization"/>
+                                </list>
+                            </field>
+                        </page>
+                         <page string="Other Details">
+                            <group>
+                                <group>
+                                    <field name="x_requested_by" readonly="1"/>
+                                    <field name="is_confirmed" readonly="1"/>
+                                    <field name="x_issued_by" readonly="1"/>
+                                    <field name="x_approved_by"/>
+                                    <field name="is_approved" readonly="1"/>
+                                </group>
+                               
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

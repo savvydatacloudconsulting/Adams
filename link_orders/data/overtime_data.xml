@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Work Entry Types -->
+        <record id="work_entry_type_ot_normal" model="hr.work.entry.type">
+            <field name="name">Normal Overtime</field>
+            <field name="code">OT_NORMAL</field>
+        </record>
+
+        <record id="work_entry_type_ot_holiday" model="hr.work.entry.type">
+            <field name="name">Holiday Overtime</field>
+            <field name="code">OT_HOLIDAY</field>
+        </record>
+
+        <!-- Salary Rule for Normal OT -->
+        <!--  -->
+
+    </data>
+</odoo>

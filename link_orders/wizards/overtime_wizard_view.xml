@@ -1,0 +1,26 @@
+<odoo>
+  <record id="view_overtime_entry_wizard" model="ir.ui.view">
+    <field name="name">Overtime Entry Wizard</field>
+    <field name="model">overtime.entry.wizard</field>
+    <field name="arch" type="xml">
+      <form string="Add Overtime">
+        <group>
+          <field name="employee_id"/>
+          <field name="ot_type"/>
+          <field name="hours"/>
+          <field name="date"/>
+        </group>
+        <footer>
+          <button name="action_add_overtime" type="object" string="Add Overtime" class="btn-primary"/>
+          <button string="Cancel" class="btn-secondary" special="cancel"/>
+        </footer>
+      </form>
+    </field>
+  </record>
+
+  <act_window id="action_overtime_entry_wizard"
+              name="Overtime Entry"
+              res_model="overtime.entry.wizard"
+              view_mode="form"
+              target="new"/>
+</odoo>

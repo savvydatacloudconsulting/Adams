@@ -1,0 +1,12 @@
+
+<odoo>
+  <record id="action_report_finished_goods_trasfer" model="ir.actions.report">
+  <field name="name">Finished Goods Transfer</field>
+  <field name="model">stock.picking</field>
+  <field name="report_type">qweb-pdf</field>
+  <field name="report_name">link_orders.report_finished_goods_transfer</field>
+  <field name="report_file">link_orders.report_finished_goods_transfer</field>
+  <field name="binding_model_id" ref="stock.model_stock_picking"/>
+  <field name="binding_type">report</field>
+</record>
+</odoo>

@@ -1,0 +1,59 @@
+<odoo>
+
+    <record id="view_order_form_inherit_mrp" model="ir.ui.view">
+        <field name="name">sale.order.form.create.mrp</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook//page[@name='other_information']" position="after">
+                <page string="Proforma Invoice Details"  name="proforma_invoice">
+                <group>
+                    <group>
+                        <field name="port_of_loading"/>
+                        <field name="destination"/>
+                        <field name="shipping_document"/>
+                        <field name="payment_term_id"/>
+                        <field name="incoterm"/>
+                        <field name="commitment_date"/>
+                        <field name="country_of_origin"/>
+                        <field name="shelf_life"/>
+                        <field name="milk_origin"/>
+
+                    </group>
+                    <group>
+                        <field name="note_1"/>
+                        <field name="note_2"/>
+                        <field name="note_3"/>
+                        <field name="note_4"/>
+                        <field name="note_5"/>
+                    </group>
+                </group>
+                </page>
+                </xpath>
+            <header position="inside">
+                <button name="action_create_mrp_order"
+                        type="object"
+                        string="Create Production Orders"
+                        class="btn-primary"
+                        invisible="state != 'sale'"/>
+            </header>
+
+            <!-- <xpath expr="//div[@class='oe_button_box']" position="inside">
+                <button name="action_view_mrp_production"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-industry">
+                    <field name="mrp_production_count"
+                        string="Production Orders"
+                        widget="statinfo"/>
+                </button>
+            </xpath> -->
+
+        <xpath expr="//list/field[@name='product_uom_qty']" position="after">
+                <field name="produced_qty"/>
+                <field name="balance_qty"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

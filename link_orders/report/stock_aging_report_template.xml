@@ -1,0 +1,156 @@
+<odoo>
+    <template id="stock_aging_report">
+        <t t-call="link_orders.custom_external_layout_standard">
+            <main class="page">
+                <t t-foreach="docs" t-as="o">
+
+                    <center><h1>Stock Aging Report</h1></center>
+                    <br/>
+
+                    <!-- Table -->
+                    <table class="table table-sm" style="width: 95%; border: 2px solid black; border-collapse: collapse;">
+                        <thead style="background-color: #C4D7E9;">
+                            <tr>
+                                <th rowspan="2" style="border: 2px solid black; padding:10px;">Sr No.</th>
+                                <th rowspan="2" style="border: 2px solid black; padding:10px;">Product Name</th>
+                                <th colspan="2" style="border: 2px solid black; padding:10px;">&lt; 30 Days</th>
+                                <th colspan="2" style="border: 2px solid black; padding:10px;">30 to 60 Days</th>
+                                <th colspan="2" style="border: 2px solid black; padding:10px;">60 to 90 Days</th>
+                                <th colspan="2" style="border: 2px solid black; padding:10px;">&gt; 90 Days</th>
+                            </tr>
+                            <tr>
+                                <th style="border: 2px solid black; padding:10px;">Qty</th>
+                                <th style="border: 2px solid black; padding:10px;">Value</th>
+                                <th style="border: 2px solid black; padding:10px;">Qty</th>
+                                <th style="border: 2px solid black; padding:10px;">Value</th>
+                                <th style="border: 2px solid black; padding:10px;">Qty</th>
+                                <th style="border: 2px solid black; padding:10px;">Value</th>
+                                <th style="border: 2px solid black; padding:10px;">Qty</th>
+                                <th style="border: 2px solid black; padding:10px;">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Grand Totals -->
+                        <t t-set="total_val_0_30" t-value="0.0"/>
+                        <t t-set="total_val_30_60" t-value="0.0"/>
+                        <t t-set="total_val_60_90" t-value="0.0"/>
+                        <t t-set="total_val_90_plus" t-value="0.0"/>
+
+                        <t t-set="sn" t-value="1"/>
+                        <t t-set="categories" t-value="sorted(set([l.product_id.categ_id.name or 'Uncategorized' for l in docs]))"/>
+
+                        <!-- Loop through each category -->
+                        <t t-foreach="categories" t-as="cat_name">
+                            <!-- Category Header -->
+                            <tr>
+                            <td colspan="10" style="border:2px solid black; background-color:#f4f4f4; font-weight:bold; padding:8px;">
+                                <t t-esc="cat_name"/>
+                            </td>
+                            </tr>
+
+                            <!-- Reset category totals -->
+                            <t t-set="cat_val_0_30" t-value="0.0"/>
+                            <t t-set="cat_val_30_60" t-value="0.0"/>
+                            <t t-set="cat_val_60_90" t-value="0.0"/>
+                            <t t-set="cat_val_90_plus" t-value="0.0"/>
+
+                            <!-- Loop through lines in this category -->
+                            <t t-foreach="docs" t-as="line">
+                            <t t-if="(line.product_id.categ_id.name or 'Uncategorized') == cat_name and line.product_id.x_product_date and line.product_id.x_expiry_date">
+                                <t t-set="age" t-value="(line.product_id.x_expiry_date - line.product_id.x_product_date).days"/>
+                                <t t-set="val" t-value="line.quantity * line.product_id.list_price"/>
+
+                                <!-- Accumulate category + grand totals -->
+                                <t t-if="age &lt;= 30">
+                                <t t-set="cat_val_0_30" t-value="cat_val_0_30 + val"/>
+                                <t t-set="total_val_0_30" t-value="total_val_0_30 + val"/>
+                                </t>
+                                <t t-if="age &gt; 30 and age &lt;= 60">
+                                <t t-set="cat_val_30_60" t-value="cat_val_30_60 + val"/>
+                                <t t-set="total_val_30_60" t-value="total_val_30_60 + val"/>
+                                </t>
+                                <t t-if="age &gt; 60 and age &lt;= 90">
+                                <t t-set="cat_val_60_90" t-value="cat_val_60_90 + val"/>
+                                <t t-set="total_val_60_90" t-value="total_val_60_90 + val"/>
+                                </t>
+                                <t t-if="age &gt; 90">
+                                <t t-set="cat_val_90_plus" t-value="cat_val_90_plus + val"/>
+                                <t t-set="total_val_90_plus" t-value="total_val_90_plus + val"/>
+                                </t>
+
+                                <!-- Product row -->
+                                <tr>
+                                <td style="border:2px solid black; padding:8px;"><t t-esc="sn"/><t t-set="sn" t-value="sn + 1"/></td>
+                                <td style="border:2px solid black; padding:8px;"><t t-esc="line.product_id.display_name"/></td>
+
+                                <!-- < 30 Days -->
+                                <td style="border:2px solid black; text-align:center;">
+                                    <t t-if="age &lt;= 30"><t t-esc="'%.2f %s' % (line.quantity, line.product_uom_id.name)"/></t>
+                                </td>
+                                <td style="border:2px solid black; text-align:right;">
+                                    <t t-if="age &lt;= 30"><t t-esc="'{:,.2f}'.format(val)"/></t>
+                                </td>
+
+                                <!-- 30-60 -->
+                                <td style="border:2px solid black; text-align:center;">
+                                    <t t-if="age &gt; 30 and age &lt;= 60"><t t-esc="'%.2f %s' % (line.quantity, line.product_uom_id.name)"/></t>
+                                </td>
+                                <td style="border:2px solid black; text-align:right;">
+                                    <t t-if="age &gt; 30 and age &lt;= 60"><t t-esc="'{:,.2f}'.format(val)"/></t>
+                                </td>
+
+                                <!-- 60-90 -->
+                                <td style="border:2px solid black; text-align:center;">
+                                    <t t-if="age &gt; 60 and age &lt;= 90"><t t-esc="'%.2f %s' % (line.quantity, line.product_uom_id.name)"/></t>
+                                </td>
+                                <td style="border:2px solid black; text-align:right;">
+                                    <t t-if="age &gt; 60 and age &lt;= 90"><t t-esc="'{:,.2f}'.format(val)"/></t>
+                                </td>
+
+                                <!-- >90 -->
+                                <td style="border:2px solid black; text-align:center;">
+                                    <t t-if="age &gt; 90"><t t-esc="'%.2f %s' % (line.quantity, line.product_uom_id.name)"/></t>
+                                </td>
+                                <td style="border:2px solid black; text-align:right;">
+                                    <t t-if="age &gt; 90"><t t-esc="'{:,.2f}'.format(val)"/></t>
+                                </td>
+                                </tr>
+                            </t>
+                            </t>
+
+                            <!-- Category subtotal row -->
+                            <tr style="font-weight:bold; background-color:#f0f0f0;">
+                            <td colspan="2" style="border:2px solid black; text-align:right; padding:8px;">Total</td>
+                            <td/>
+                            <td style="border:2px solid black; text-align:right;"><t t-esc="'{:,.2f}'.format(cat_val_0_30)"/></td>
+                            <td/>
+                            <td style="border:2px solid black; text-align:right;"><t t-esc="'{:,.2f}'.format(cat_val_30_60)"/></td>
+                            <td/>
+                            <td style="border:2px solid black; text-align:right;"><t t-esc="'{:,.2f}'.format(cat_val_60_90)"/></td>
+                            <td/>
+                            <td style="border:2px solid black; text-align:right;"><t t-esc="'{:,.2f}'.format(cat_val_90_plus)"/></td>
+                            </tr>
+                        </t>
+
+                        <!-- Grand Total Row -->
+                        <tr style="font-weight:bold; background-color:#dbeeff;">
+                            <td colspan="2" style="border:2px solid black; text-align:right;  padding:8px;">Grand Total</td>
+                            <td/>
+                            <td style="border:2px solid black; text-align:right;"><t t-esc="'{:,.2f}'.format(total_val_0_30)"/></td>
+                            <td/>
+                            <td style="border:2px solid black; text-align:right;"><t t-esc="'{:,.2f}'.format(total_val_30_60)"/></td>
+                            <td/>
+                            <td style="border:2px solid black; text-align:right;"><t t-esc="'{:,.2f}'.format(total_val_60_90)"/></td>
+                            <td/>
+                            <td style="border:2px solid black; text-align:right;"><t t-esc="'{:,.2f}'.format(total_val_90_plus)"/></td>
+                        </tr>
+                        </tbody>
+                    </table>  
+
+
+
+                </t>
+            </main>
+        </t>
+    </template>
+</odoo>

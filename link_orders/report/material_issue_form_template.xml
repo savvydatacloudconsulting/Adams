@@ -1,0 +1,11 @@
+<odoo>
+    <record id="action_report_material_issue_form" model="ir.actions.report">
+      <field name="name">Material Issue Form</field>
+      <field name="model">material.issue</field>
+      <field name="report_type">qweb-pdf</field>
+      <field name="report_name">link_orders.material_issue_form_report</field>
+      <field name="report_file">link_orders.material_issue_form_report</field>
+      <field name="binding_model_id" ref="model_material_issue"/>
+      <field name="binding_type">report</field>
+    </record>
+</odoo>

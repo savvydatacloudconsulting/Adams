@@ -1,0 +1,33 @@
+<odoo>
+  <record id="view_product_template_form_inherit_batch_dates" model="ir.ui.view">
+    <field name="name">product.template.form.inherit.batch.dates</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_only_form_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//sheet/notebook/page[@name='general_information']//field[@name='type']" position="after">
+     
+          <field name="production_date"/>
+          <field name="expiry_date"/>
+          <field name="batch_no"/>
+          <field name="code"/>
+        
+      </xpath>
+    </field>
+  </record>
+
+  <record id="view_product_form_inherit_batch_dates" model="ir.ui.view">
+    <field name="name">product.template.form.inherit.batch.dates</field>
+    <field name="model">product.product</field>
+    <field name="inherit_id" ref="product.product_normal_form_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//sheet/notebook/page[@name='general_information']//field[@name='type']" position="after">
+     
+          <field name="production_date"/>
+          <field name="expiry_date"/>
+          <field name="batch_no"/>
+          <field name="code"/>
+        
+      </xpath>
+    </field>
+  </record>
+</odoo>
