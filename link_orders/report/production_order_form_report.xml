@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_custom_production_order_form" inherit_id="mrp.report_mrporder">
+        <xpath expr="." position="replace">
+            <t t-call="link_orders.custom_external_layout_standard">
+
+                <main>
+                    <t t-foreach="docs" t-as="o">
+
+           <div class="page">
+            <center><h2><u>PRODUCTION ORDER FORM</u></h2></center>
+                <table style="border-collapse: collapse; border: 1px solid black; width: 52%;">
+              
+                
+                <tr>
+                    <td style="padding: 5px; border: 1px solid black; width: 40%;  background-color: #C4D7E9; "><strong>Prod Order Number :</strong></td>
+                    <td style="padding: 5px; border: 1px solid black; width: 60%;"><t t-esc="o.name"/></td>
+                </tr>
+                 <tr>
+                    <td style="padding: 5px; border: 1px solid black; width: 40%;  background-color: #C4D7E9; "><strong>Prod Order Date :</strong></td>
+                    <td style="padding: 5px; border: 1px solid black; width: 60%;"><t t-if="o.date_start"><t t-esc="o.date_start.strftime('%d/%m/%Y')"/></t></td>
+                </tr>
+                <tr>
+                    <td style="padding: 5px; border: 1px solid black; width: 40%;  background-color: #C4D7E9; "><strong>Customer Name :</strong></td>
+                    <td style="padding: 5px; border: 1px solid black; width: 60%;"><t t-esc="o.x_customer.name"/></td>
+                </tr>
+                
+                <tr>
+                    <td style="padding: 5px; border: 1px solid black; width: 40%;  background-color: #C4D7E9; "><strong> Address :</strong></td>
+                    <td style="padding: 5px; border: 1px solid black; width: 60%;">
+                        <t t-if="o.x_customer.street"><t t-esc="o.x_customer.street"/>, </t>
+                        <t t-if="o.x_customer.street2"><t t-esc="o.x_customer.street2"/>, </t>
+                        <t t-if="o.x_customer.city"><t t-esc="o.x_customer.city"/>, </t>
+                        <t t-if="o.x_customer.state_id"><t t-esc="o.x_customer.state_id.name"/>, </t>
+                        <t t-if="o.x_customer.zip"><t t-esc="o.x_customer.zip"/>, </t>
+                        <t t-if="o.x_customer.country_id"><t t-esc="o.x_customer.country_id.name"/></t>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 5px; border: 1px solid black; width: 40%; background-color: #C4D7E9; "><strong>PI Number :</strong></td>
+                    <td style="padding: 5px; border: 1px solid black; width: 60%;"><t t-esc="o.origin"/></td>
+                </tr>
+                <tr>
+                    <td style="padding: 5px; border: 1px solid black; width: 40%; background-color: #C4D7E9; "><strong>PI Date :</strong></td>
+                    <td style="padding: 5px; border: 1px solid black; width: 60%;"><t t-if="o.pi_order_date"><t t-esc="o.pi_order_date.strftime('%d/%m/%Y')"/></t></td>
+                </tr>
+                </table>
+            
+            
+                <table style="border-collapse: collapse; border: 1px solid black; width: 40%; margin-left: 58%; margin-top: -25%;">
+                    <tr>
+                        <td style="padding: 5px; border: 1px solid black; width: 50%;  background-color: #C4D7E9; "><strong>Document Reference Number :</strong></td>
+                        <td style="padding: 5px; border: 1px solid black; width: 50%;"><t t-esc="o.document_reference_number"/></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 5px; border: 1px solid black; width: 50%; background-color: #C4D7E9; "><strong>Issue No :</strong></td>
+                        <td style="padding: 5px; border: 1px solid black; width: 50%;"><t t-esc="o.x_issue_number"/></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 5px; border: 1px solid black; width: 50%; background-color: #C4D7E9; "><strong> Issue Date :</strong></td>
+                        <td style="padding: 5px; border: 1px solid black; width: 50%;"><t t-if="o.x_issue_date"><t t-esc="o.x_issue_date.strftime('%d/%m/%Y')"/></t></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 5px; border: 1px solid black; width: 50%; background-color: #C4D7E9; "><strong> Revision No :</strong></td>
+                        <td style="padding: 5px; border: 1px solid black; width: 50%;"> <t t-esc="o.revision_number"/></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 5px; border: 1px solid black; width: 50%; background-color: #C4D7E9; "><strong>Revision Date :</strong></td>
+                        <td style="padding: 5px; border: 1px solid black; width: 50%;"><t t-if="o.x_revision_date"><t t-esc="o.x_revision_date.strftime('%d/%m/%Y')"/></t></td>
+                    </tr>
+                    
+                </table>
+        
+            <br/>
+            <br/>
+            <table class="table table-sm" style=" border: 1px solid black; border-collapse: collapse;">
+                <tbody>
+                    
+
+                    <tr>
+                        <th style="border: 1px solid black; padding:10px; text-align:left;">Product Name :</th>
+                        <td style="border-left: 1px solid black; padding:10px; border-top: 1px solid black; border-bottom: 1px solid black; text-align:left;">
+                            <t t-esc="o.product_id.name"/>
+                        </td>
+                      
+                    </tr>
+
+                    <tr>
+                        <th style="border: 1px solid black; padding:10px; text-align:left;">Packing Size :</th>
+                        <td style="border-left: 1px solid black; padding:10px; border-top: 1px solid black; border-bottom: 1px solid black; text-align:left;">
+                            <t t-esc="o.packing_size"/>
+                        </td>
+                      
+                    </tr>
+
+                    <tr>
+                        <th style="border: 1px solid black; padding:10px; text-align:left;">Ordered Quantity :</th>
+                        <td style="border-left: 1px solid black; padding:10px; border-top: 1px solid black; border-bottom: 1px solid black; text-align:left;">
+                            <t t-esc="o.product_qty"/>
+                        </td>
+                       
+                    </tr>
+
+                    <tr>
+                        <th style="border: 1px solid black; padding:10px; text-align:left;">Required Quantity :</th>
+                        <td style="border-left: 1px solid black; padding:10px; border-top: 1px solid black; border-bottom: 1px solid black; text-align:left;">
+                            <t t-esc="o.product_qty"/>
+                        </td>
+                       
+                    </tr>
+
+                    <tr>
+                        <th style="border: 1px solid black; padding:10px; text-align:left;">Packing Requirenment :</th>
+                        <td style="border-left: 1px solid black; padding:10px; border-top: 1px solid black; border-bottom: 1px solid black; text-align:left;">
+                            <t t-esc="o.packing_requirenment"/>
+                        </td>
+                       
+                    </tr>
+
+                    <tr>
+                        <th style="border: 1px solid black; padding:10px; text-align:left;">Country Of Origin :</th>
+                        <td style="border-left: 1px solid black; padding:10px; border-top: 1px solid black; border-bottom: 1px solid black; text-align:left;">
+                            <t t-esc="o.country_of_origin.name"/>
+                        </td>
+                       
+                    </tr>
+
+                    <tr>
+                        <th style="border: 1px solid black; padding:10px; text-align:left;">Shelf Life :</th>
+                        <td style="border-left: 1px solid black; padding:10px; border-top: 1px solid black; border-bottom: 1px solid black; text-align:left;">
+                            <t t-esc="o.shelf_life"/>
+                        </td>
+                        
+                    </tr>
+
+                    <tr>
+                        <th style="border: 1px solid black; padding:10px; text-align:left;">Product Quality :</th>
+                        <td style="border-left: 1px solid black; padding:10px; border-top: 1px solid black; border-bottom: 1px solid black; text-align:left;">
+                            <t t-esc="o.product_quality"/>
+                        </td>
+                      
+                    </tr>
+
+                    <tr>
+                        <th style="border: 1px solid black; padding:10px; text-align:left;">Delivery Date :</th>
+                        <td style="border-left: 1px solid black; padding:10px; border-top: 1px solid black; border-bottom: 1px solid black; text-align:left;">
+                            <t t-if="o.delivery_date"><t t-esc="o.delivery_date.strftime('%d/%m/%Y')"/></t>
+                            <t t-else="">N/A</t>
+                        </td>
+                        
+                    </tr>
+
+                    <tr>
+                        <th style="border: 1px solid black; padding:10px; text-align:left;">Loading Description :</th>
+                        <td style="border-left: 1px solid black; padding:10px; border-top: 1px solid black; border-bottom: 1px solid black; text-align:left;">
+                            <t t-esc="o.loading_description"/>
+                        </td>
+                      
+                    </tr>
+                </tbody>
+            </table>
+            <br/>
+           <table class="table table-sm" style="width: 50%; border: 1px solid black; border-collapse: collapse;">
+                <tbody>
+                    <tr>
+                        <th style="border: 1px solid black; width: 28%; padding: 15px;">
+                            Requested By :<br/>
+                            <t t-esc="o.x_requested_by.name"/>
+                        </th>
+                        <td style="border: 1px solid black; width: 40%; padding: 5px;"/>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-sm" style="width: 50%; border: 1px solid black; border-collapse: collapse;">
+                <tbody>
+                    <tr>
+                        <th style="border: 1px solid black; width: 25%; padding: 15px;">
+                            Issued By :<br/>
+                            <t t-esc="o.x_issued_by.name"/>
+                        </th>
+                        <td style="border: 1px solid black; width: 40%; padding: 5px;"/>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-sm" style="width: 50%; border: 1px solid black; border-collapse: collapse;">
+                <tbody>
+                    <tr >
+                        <th style="border: 1px solid black; width: 25%; padding: 15px;">
+                            Approved By :<br/>
+                            <t t-esc="o.x_approved_by.name"/>
+                        </th>
+                        <td style="border: 1px solid black; width: 40%; padding: 5px;"/>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+                    </t>
+                </main>
+            </t>
+        </xpath>
+    </template>
+</odoo>

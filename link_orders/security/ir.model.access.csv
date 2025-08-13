@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_create_mrp_wizard_line,access.create.mrp.wizard.line,model_create_mrp_wizard_line,,1,1,1,1
+access_create_mrp_wizard,access_create_mrp_wizard,model_create_mrp_wizard,,1,1,1,1
+access_material_issue,material.issue,model_material_issue,,1,1,1,1
+access_material_issue_line,material.issue.line,model_material_issue_line,,1,1,1,1

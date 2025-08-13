@@ -1,0 +1,12 @@
+<odoo>
+    <record id="action_report_lor" model="ir.actions.report">
+        <field name="name">List of Raw Material (LOR)</field>
+        <field name="model">mrp.bom</field> <!-- or your model -->
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">link_orders.report_lor_template</field>
+        <field name="report_file">link_orders.lor_report_template</field>
+        <field name="print_report_name">'LOR - %s' % (object.x_lor_number or '')</field>
+        <field name="binding_model_id" ref="model_mrp_bom"/>
+      <field name="binding_type">report</field>
+    </record>
+</odoo>

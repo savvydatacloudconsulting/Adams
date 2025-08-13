@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_stock_rep" model="ir.actions.report">
+        <field name="name">Stock Report</field>
+        <field name="model">stock.move.line</field> <!-- or your model -->
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">link_orders.stock_report_template</field>
+        <field name="print_report_name">'Stock Aging report - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_stock_move_line"/>
+      <field name="binding_type">report</field>
+    </record>
+  
+</odoo>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="custom_ot_work_entry_type" model="hr.work.entry.type">
+        <field name="name">Custom Overtime</field>
+        <field name="code">custom_ot</field>
+      
+    </record>
+</odoo>

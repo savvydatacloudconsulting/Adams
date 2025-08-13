@@ -1,0 +1,321 @@
+<odoo>
+    <template id="tax_invoice_report">
+        <t t-call="link_orders.custom_external_layout_standard">
+            <main class="page">
+                <t t-foreach="docs" t-as="o">
+
+          
+            
+    
+
+                 
+                   
+
+            <center><h2>Tax Invoice</h2></center>
+
+            <div class="row mt-5">
+                <!-- Left Side: Labels & Values in Two Columns -->
+                <div class="col-6">
+                    <table style="width:100%; line-height: 1.8; font-size: 13px;">
+                        <tr>
+                            <td style="width:160px;"><strong>Invoice Number :</strong></td>
+                            <td><span t-esc="o.name"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Invoice Date :</strong></td>
+                            <td>
+                                <t t-if="o.invoice_date">
+                                    <span t-esc="o.invoice_date.strftime('%d/%m/%Y')"/>
+                                </t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Invoice Amount :</strong></td>
+                            <td><span t-esc="'{:,.2f}'.format(o.amount_total)"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total VAT Amount :</strong></td>
+                            <td><span t-esc="'{:,.2f}'.format(o.amount_tax)"/></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+    
+    
+            <div class="row" style="margin-top:5px;">
+            <table style="width:96%; border-collapse: collapse; margin-bottom: 8px; font-size: 13px; box-sizing: border-box;">
+                <tr>
+                    <!-- Consignee Details -->
+                    <td style="width:50%; vertical-align: top; border: 1px solid #000; padding: 0;">
+                        <table style="width:100%; border-collapse: collapse; box-sizing: border-box; font-size: 13px;">
+                            <tr>
+                                <td colspan="2" style="background-color: #007acc; color: #ffffff; font-weight: bold; padding: 6px;">
+                                    Consignee Details
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:150px; padding: 6px;"><strong>Customer Name :</strong></td>
+                                <td style="padding: 6px;"><span t-esc="o.partner_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 6px;"><strong>Street :</strong></td>
+                                <td style="padding: 6px;"><span t-esc="o.partner_id.street"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 6px;"><strong>City, Country :</strong></td>
+                                <td style="padding: 6px;">
+                                    <span t-esc="o.partner_id.city"/>, 
+                                    <span t-esc="o.partner_id.country_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 6px;"><strong>Phone :</strong></td>
+                                <td style="padding: 6px;"><span t-esc="o.partner_id.phone"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 6px;"><strong>TRN Number :</strong></td>
+                                <td style="padding: 6px;"><span t-esc="o.partner_id.vat"/></td>
+                            </tr>
+                        </table>
+                    </td>
+
+                    <!-- Seller Details -->
+                    <td style="width:50%; vertical-align: top; border: 1px solid #000; padding: 0;">
+                        <table style="width:100%; border-collapse: collapse; box-sizing: border-box; font-size: 13px;">
+                            <tr>
+                                <td colspan="2" style="background-color: #007acc; color: #ffffff; font-weight: bold; padding: 6px;">
+                                    Seller Details
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:150px; padding: 6px;"><strong>Company Name :</strong></td>
+                                <td style="padding: 6px;"><span t-esc="o.company_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 6px;"><strong>Street :</strong></td>
+                                <td style="padding: 6px;"><span t-esc="o.company_id.street"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 6px;"><strong>City, Country :</strong></td>
+                                <td style="padding: 6px;">
+                                    <span t-esc="o.company_id.city"/>, 
+                                    <span t-esc="o.company_id.country_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 6px;"><strong>Phone :</strong></td>
+                                <td style="padding: 6px;"><span t-esc="o.company_id.phone"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 6px;"><strong>TRN Number :</strong></td>
+                                <td style="padding: 6px;"><span t-esc="o.company_id.vat"/></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+    
+            <table style="width:96%; border-collapse: collapse; margin-top:20px; font-size:13px;">
+                <thead style="background-color:#007acc; color:#ffffff;">
+                    <tr>
+                        <th style="padding:8px; border:1px solid black; text-align:center; wodth:2%;">Sr. No.</th>
+                        <th style="padding:8px; border:1px solid black; text-align:left;">Description</th>
+                        <th style="padding:8px; border:1px solid black; text-align:center;width:7%;">Qty</th>
+                        <th style="padding:8px; border:1px solid black; text-align:right;">Unit Price</th>
+                        <th style="padding:8px; border:1px solid black; text-align:right; width:10%;">VAT Rate</th>
+                        <th style="padding:8px; border:1px solid black; text-align:right; width:20%;">Taxable Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="o.invoice_line_ids" t-as="line" t-esc-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}">
+                        <td style="padding:6px; border:1px solid black; text-align:center;" t-esc="line_index + 1"/>
+                        <td style="padding:6px; border:1px solid black;">
+                            <span style="font-size:16px;"><t t-esc="line.product_id.name"/></span><br/>
+                            <!-- <span style="font-size:10px;">
+                                Batch No. : <t t-esc="line.product_id.x_batch_no"/> <br/>
+                                Production Date :
+                                <t t-if="line.product_id.x_product_date">
+                                    <t t-esc="line.product_id.x_product_date.strftime('%d/%m/%Y')"/>
+                                </t><br/>
+                                Expiry Date :
+                                <t t-if="line.product_id.x_expiry_date">
+                                    <t t-esc="line.product_id.x_expiry_date.strftime('%d/%m/%Y')"/>
+                                </t>
+                            </span> -->
+                        </td>
+                        <td style="padding:6px; border:1px solid black; text-align:center;" t-esc="line.quantity"/>
+                        <td style="padding:6px; border:1px solid black; text-align:right;">
+                            <t t-esc="o.currency_id.name"/> <t t-esc="'{:,.2f}'.format(line.price_unit)"/>
+                        </td>
+                        <td style="padding:6px; border:1px solid black; text-align:right;" t-esc="line.tax_ids.name"/>
+                        <td style="padding:6px; border:1px solid black; text-align:right;">
+                            <t t-esc="o.currency_id.name"/> <t t-esc="'{:,.2f}'.format(line.price_subtotal)"/>
+                        </td> 
+                    </tr>
+                                <!-- Summary rows -->
+                    <t t-set="subtotal" t-value="sum(line.price_subtotal for line in o.invoice_line_ids)"/>
+                    <t t-set="tax_total" t-value="sum(t['amount'] for line in o.invoice_line_ids for t in line.tax_ids.compute_all(line.price_unit, quantity=line.quantity, currency=o.currency_id)['taxes'])"/>
+                    <t t-set="total" t-value="subtotal + tax_total"/>
+                    <t t-set="amount_words" t-value="o.currency_id.amount_to_text(o.amount_total)"/>
+
+                    <t t-if="o.invoice_line_ids">
+                        <tr>
+                            <!-- NO border here -->
+                            <td colspan="4" rowspan="3" style="padding:6px; vertical-align:top;">
+                                <strong>Amount in Words:</strong><br/>
+                                <span t-esc="amount_words"/>
+                            </td>
+                            <td style="padding:6px; border:1px solid black; text-align:right;"><strong>Subtotal</strong></td>
+                            <td style="padding:6px; border:1px solid black; text-align:right;">
+                                <t t-esc="o.currency_id.name"/> <t t-esc="'{:,.2f}'.format(subtotal)"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding:6px; border:1px solid black; text-align:right;"><strong>VAT Amount</strong></td>
+                            <td style="padding:6px; border:1px solid black; text-align:right;">
+                                <t t-esc="o.currency_id.name"/> <t t-esc="'{:,.2f}'.format(tax_total)"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding:6px; border:1px solid black; text-align:right;"><strong>Total</strong></td>
+                            <td style="padding:6px; border:1px solid black; text-align:right;">
+                                <t t-esc="o.currency_id.name"/> <t t-esc="'{:,.2f}'.format(total)"/>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+
+            <!--</div>-->
+            
+            <div style="clear:both; height:10px;"/>
+            
+                    <!-- Shipping & Customer Info Table -->
+                    <table style="width: 79%; border: 1px solid #000; border-collapse: collapse; font-size: 13px;">
+                        <tr>
+                            <!-- Left Column -->
+                            <td style="width: 50%; border-right:1px solid black; vertical-align: top; padding: 0;">
+                                <table style="width: 100%;  border-collapse: collapse; font-size: 13px;">
+                                    <tr>
+                                        <td style="width: 40%; padding: 6px;">Port Of Loading :</td>
+                                        <td style="padding: 6px; border-left: 1px solid #000;"><span t-esc="o.x_port_of_loading"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px;">Port Of Discharge :</td>
+                                        <td style="padding: 6px; border-left: 1px solid #000;"><span t-esc="o.x_port_of_discharge"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px;">Inco. Term :</td>
+                                        <td style="padding: 6px; border-left: 1px solid #000;"><span t-esc="o.invoice_incoterm_id.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px;">Payment Term :</td>
+                                        <td style="padding: 6px; border-left: 1px solid #000;"><span t-esc="o.invoice_payment_term_id.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px;">Country Of Origin :</td>
+                                        <td style="padding: 6px; border-left: 1px solid #000;"><span t-esc="o.x_country_of_origin.name"/></td>
+                                    </tr>
+                                </table>
+                            </td>
+
+                            <!-- Totals Initialization -->
+                            <t t-set="total_net_weight" t-value="0.0"/>
+                            <t t-set="total_gross_weight" t-value="0.0"/>
+                            <t t-foreach="o.invoice_line_ids" t-as="line">
+                                <t t-set="total_net_weight" t-value="total_net_weight + float(line.x_total_net_weight or 0.0)"/>
+                                <t t-set="total_gross_weight" t-value="total_gross_weight + float(line.x_total_gross_weight or 0.0)"/>
+                            </t>
+
+                            <!-- Right Column -->
+                            <td style="width: 50%; vertical-align: top; padding: 0;">
+                                <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                                    <tr>
+                                        <td style="width: 55%; padding: 6px;">Total Net Weight in KGs :</td>
+                                        <td style="padding: 6px; border-left: 1px solid #000;"><t t-esc="'{:,.2f}'.format(total_net_weight)"/> KGS</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px;">Total Gross Weight in KGs :</td>
+                                        <td style="padding: 6px; border-left: 1px solid #000;"><t t-esc="'{:,.2f}'.format(total_gross_weight)"/> KGS</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px;">Total Packages :</td>
+                                        <td style="padding: 6px; border-left: 1px solid #000;"><span t-esc="o.x_total_package"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px;">Carriage :</td>
+                                        <td style="padding: 6px; border-left: 1px solid #000;"><span t-esc="o.x_carriage_by"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px;">HS Code :</td>
+                                        <td style="padding: 6px; border-left: 1px solid #000;"><span t-esc="o.x_hs_code"/></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+            
+            <br/>
+
+            
+                <div>
+                <!-- Container for all 3 tables -->
+                <div style="width: 100%; white-space: nowrap; font-size: 13px;">
+                    
+                    <!-- Consignee Table -->
+                    <div style="display: inline-block; vertical-align: top; width: 40%;">
+                        
+                        <table style="width: 100%; font-size: 13px; line-height: 1.6;">
+                            <tr>
+                                <td style="width:150px;"><strong>PAYABLE TO :</strong></td>
+                                <td><span t-esc="o.company_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td style="width:150px;"><strong>Bank Name :</strong></td>
+                                <td><span t-esc="o.company_id.bank_ids.bank_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Currency :</strong></td>
+                                <td><span t-esc="o.currency_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Account Number :</strong></td>
+                                <td><span t-esc="o.company_id.bank_ids.acc_number"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>IBAN :</strong></td>
+                                <td><span t-esc="o.company_id.bank_ids.x_iban_no"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Swift Code :</strong></td>
+                                <td><span t-esc="o.company_id.bank_ids.bank_id.x_swift"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Branch :</strong></td>
+                                <td><span t-esc="o.company_id.bank_ids.bank_id.x_branch"/></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Notify Party Table -->
+                    <div style="display: inline-block; vertical-align: top; width: 26%; margin-left: 30%; font-size:15px;">
+                    <div>
+                            <strong>FOR</strong>
+                            <strong style="margin-left: 5px;">ADAMS DAIRY FZC</strong>
+                        </div>
+                    </div>
+
+                
+                </div>
+                </div>
+
+        </div>
+
+
+                    <center><strong> Thank You for your business! </strong></center>
+        
+                </t>
+            </main>
+        </t>
+    </template>
+</odoo>

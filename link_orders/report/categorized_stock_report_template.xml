@@ -1,0 +1,86 @@
+<odoo>
+  <template id="categorized_stock_report_template">
+    <t t-call="link_orders.custom_external_layout_standard">
+      <!-- Your report body here -->
+       <main class="page" >
+            <t t-foreach="docs" t-as="o">
+          
+                <center><h1> Stock Aging Report</h1></center>
+                <br/>
+
+                <table class="table table-sm" style="width: 96%; margin-left:1.5%; border: 2px solid black; border-collapse: collapse;">
+                    <thead style="background-color: #C4D7E9;">
+                        <tr>
+                            <th style="border: 2px solid black; padding:10px;">Sr No.</th>
+                            <th style="border: 2px solid black; padding:10px;">Product</th>
+                            <th style="border: 2px solid black; padding:10px;">Batch Number</th>
+                            <th style="border: 2px solid black; padding:10px;">Production Date</th>
+                            <th style="border: 2px solid black; padding:10px;">Expiry Date</th>
+                            <th style="border: 2px solid black; padding:10px;">Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="sn" t-value="1"/>
+                        <t t-set="last_location" t-value="None"/>
+                        <t t-set="last_category" t-value="None"/>
+
+                        <t t-foreach="docs" t-as="line">
+                            <!-- Location Header -->
+                            <t t-if="not last_location or last_location != line.location_id.display_name">
+                                <tr style="background-color:#f4f4f4; ">
+                                    <td colspan="7" style="font-weight:bold; padding:6px; border: 2px solid black; background-color: #DDEBF7;">
+                                        Location: <t t-esc="line.location_id.display_name"/>
+                                    </td>
+                                </tr>
+                                <t t-set="last_location" t-value="line.location_id.display_name"/>
+                                <t t-set="last_category" t-value="None"/> <!-- Reset category when location changes -->
+                            </t>
+
+                            <!-- Product Category Header -->
+                            <t t-if="not last_category or last_category != line.product_id.categ_id.name">
+                                <tr style="background-color:#eaf3ea;">
+                                    <td colspan="7" style="padding: 6px; font-weight:bold; border: 2px solid black; background-color: #E2EFDA;">
+                                        Product Category: <t t-esc="line.product_id.categ_id.name"/>
+                                    </td>
+                                </tr>
+                                <t t-set="last_category" t-value="line.product_id.categ_id.name"/>
+                            </t>
+
+                            <!-- Product Row -->
+                            <tr>
+                                <td style="border: 2px solid black; padding:8px;">
+                                    <t t-esc="sn"/>
+                                    <t t-set="sn" t-value="sn + 1"/>
+                                </td>
+                                <td style="border: 2px solid black; padding:8px;">
+                                    <t t-esc="line.product_id.name"/>
+                                </td>
+                                <td style="border: 2px solid black; padding:8px;">
+                                    <t t-esc="line.product_id.x_batch_no or 'N/A'"/>
+                                </td>
+                                <td style="border: 2px solid black; padding:8px;">
+                                    <t t-if="line.product_id.x_product_date">
+                                        <t t-esc="line.product_id.x_product_date.strftime('%d/%m/%Y')"/>
+                                    </t><t t-if="not line.product_id.x_product_date">N/A</t>
+                                </td>
+                                <td style="border: 2px solid black; padding:8px;">
+                                    <t t-if="line.product_id.x_expiry_date">
+                                        <t t-esc="line.product_id.x_expiry_date.strftime('%d/%m/%Y')"/>
+                                    </t><t t-if="not line.product_id.x_expiry_date">N/A</t>
+                                </td>
+                                <td style="border: 2px solid black; padding:8px;">
+                                    <t t-esc="line.quantity"/>
+                                </td>
+                                
+                            </tr>
+                        </t>
+                    </tbody>
+
+                </table>
+
+
+            </t>
+      </main>
+    </t>
+  </template>
+</odoo>

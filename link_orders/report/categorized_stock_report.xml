@@ -1,0 +1,11 @@
+<odoo>
+    <record id="action_report_categorized_stock_report" model="ir.actions.report">
+      <field name="name">Material Issue Form</field>
+      <field name="model">material.issue</field>
+      <field name="report_type">qweb-pdf</field>
+      <field name="report_name">link_orders.categorized_stock_report_template</field>
+      <field name="report_file">link_orders.categorized_stock_report_template</field>
+      <field name="binding_model_id" ref="model_material_issue"/>
+      <field name="binding_type">report</field>
+    </record>
+</odoo>

@@ -1,0 +1,70 @@
+<odoo>
+    <template id="partner_purchase_report">
+        <t t-call="link_orders.custom_external_layout_standard">
+            <main class="page">
+                <t t-foreach="docs" t-as="o">
+                    <center><h1>PURCHASE REPORT</h1></center>
+                    <br/>
+
+                    <!-- Table -->
+                    <table class="table table-sm" style=" border: 2px solid black; border-collapse: collapse;">
+                        <thead style="background-color: #C4D7E9;">
+                            <tr>
+                                <th style="border: 2px solid black; ">Sr No.</th>
+                                <th style="border: 2px solid black; ">Date</th>
+                                <th style="border: 2px solid black;">Order No</th>
+                                <th style="border: 2px solid black; ">Customer Name</th>
+                                <th style="border: 2px solid black; ">Purchase</th>
+                                <th style="border: 2px solid black; ">Country</th>
+                                <th style="border: 2px solid black; ">Month</th>
+                                <th style="border: 2px solid black;">Item Name</th>
+                                <th style="border: 2px solid black; ">QTY / MT</th>
+                                <th style="border: 2px solid black; ">QTY / CTN</th>
+                                <th style="border: 2px solid black; ">Price (USD)</th>
+                                <th style="border: 2px solid black; ">Price (AED)</th>
+                                <th style="border: 2px solid black; ">Value</th>
+                            </tr>             
+
+                        </thead>
+                        <tbody >
+                            <t t-set="sn" t-value="1"/>
+                            <t t-set="all_purchase_orders" t-value="[]"/>
+
+                            <t t-foreach="docs" t-as="partner">
+                                <t t-set="all_purchase_orders" t-value="all_purchase_orders + list(partner.purchase_line_ids)"/>
+                            </t>
+
+                            <t t-foreach="all_purchase_orders" t-as="order">
+                                <!--<t t-foreach="order.order_line" t-as="line">-->
+                                    <tr>
+                                        <td style="border: 2px solid black;  text-align:center;"><t t-esc="sn"/></td>
+                                        <td style="border: 2px solid black; "><t t-esc="order.date_order.strftime('%d/%m/%Y') if order.date_order else ''"/></td>
+                                        <td style="border: 2px solid black; "><t t-esc="order.order_id.name"/></td>
+                                        <td style="border: 2px solid black; "><t t-esc="order.partner_id.name"/></td>
+                                        <td style="border: 2px solid black; "><t t-esc="order.order_id.user_id.name"/></td>
+                                        <td style="border: 2px solid black; "><t t-esc="order.partner_id.country_id.name"/></td>
+                                        <td style="border: 2px solid black; "><t t-esc="order.date_order.strftime('%B') if order.date_order else ''"/></td>
+                                        <td style="border: 2px solid black; "><t t-esc="order.product_id.name"/></td>
+                                        <td style="border: 2px solid black; ">
+                                        <!-- <t t-esc="order.x_qty_mt"/> -->
+                                        </td>
+                                        <td style="border: 2px solid black; "><t t-esc="order.product_qty"/></td>
+                                        <td style="border: 2px solid black; ">
+                                        <!-- <t t-esc="order.x_rate_in_usd"/> -->
+                                        </td>
+                                        <td style="border: 2px solid black; ">
+                                        <!-- <t t-esc="order.x_rate_in_aed"/> -->
+                                        </td>
+                                        <td style="border: 2px solid black; ">
+                                            <!-- <t t-esc="'{:,.2f}'.format(order.x_rate_in_aed * order.product_qty)"/> -->
+                                        </td>
+                                    </tr>
+                                    <t t-set="sn" t-value="sn + 1"/>
+                                </t>
+                        </tbody>
+                    </table>
+                </t>
+            </main>
+        </t>
+    </template>
+</odoo>

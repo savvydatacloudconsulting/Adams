@@ -1,0 +1,59 @@
+<odoo>
+    <record id="view_move_form_inherit_custom_fields" model="ir.ui.view">
+        <field name="name">account.move.form.custom.fields</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!-- Add new notebook page -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Invoice Details">
+                <group>
+                   <!-- Shipping & Party Info -->
+                    <group>
+                        <field name="x_notify_party"/>
+                        <field name="x_carriage_by"/>
+                        <field name="x_port_of_loading"/>
+                        <field name="x_port_of_discharge"/>
+                        <field name="x_total_package"/>
+                    </group>
+
+                      <!-- Additional Trade Info -->
+                    <group >
+                        <field name="x_payment_terms"/>
+                        <field name="x_incoterm"/>
+                        <field name="x_country_of_origin"/>
+                        <field name="x_total_containers"/>
+                        <field name="x_hs_code"/>
+                    </group>
+
+                </group>
+                <group>
+                     <!-- Notes -->
+                    <group string="Notes" >
+                        <field name="x_is_notes"/>
+                        <field name="x_note_1"/>
+                        <field name="x_note_2"/>
+                        <field name="x_note_3"/>
+                        <field name="x_note_4"/>
+                        <field name="x_note_5"/>
+                        <field name="x_note_6"/>
+                    </group>
+
+                    <!-- Labels -->
+                    <group string="Labels" >
+                        <field name="x_is_label"/>
+                        <field name="x_label_1"/>
+                        <field name="x_label_2"/>
+                        <field name="x_label_3"/>
+                    </group>
+
+                </group>
+                    
+                 
+
+                   
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

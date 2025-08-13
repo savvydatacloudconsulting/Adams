@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <template id="custom_external_layout_standard">
+
+    <!-- ✅ YOUR CUSTOM HEADER -->
+    <div t-attf-class="header o_company_#{}_layout" t-att-style="report_header_style">
+      <div class="row">
+        <div class="col-6 mb4">
+          <img t-if="o.company_id.logo"  style="max-width: 185px;"  t-att-src="image_data_uri(o.company_id.logo)" alt="Logo"/>
+        </div>
+        <div class="col-6 mb4" style="margin-left:15%;">
+          <img t-if="o.company_id.x_logo"  style="max-width: 300px;" 
+               t-att-src="'data:image/png;base64,%s' % o.company_id.x_logo.decode('utf-8')" alt="Logo"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ YOUR CUSTOM BODY CONTENT PLACEHOLDER -->
+    <div class="article">
+      <t t-call="web.address_layout"/>
+      <h2 t-out="layout_document_title"/>
+      <t t-out="0"/>
+    </div>
+
+    <!-- ✅ YOUR CUSTOM FOOTER -->
+    <div t-attf-class="footer o_company_#{}_layout border-top">
+      <div class="o_footer_content d-flex pt-2" style="text-align:center;">
+        <div class="text-center" style="text-align:center;">
+          <span style="text-align:center;">
+            <span style="color:red;"><i class="fa fa-map-marker"/></span>
+            <t t-if="o.company_id.street"> <t t-esc="o.company_id.street"/>, </t>
+            <t t-if="o.company_id.street2"> <t t-esc="o.company_id.street2"/>, </t>
+            <t t-if="o.company_id.city"> <t t-esc="o.company_id.city"/>, </t>
+            <t t-if="o.company_id.state_id.name"> <t t-esc="o.company_id.state_id.name"/>, </t>
+            <t t-if="o.company_id.country_id.name"><t t-esc="o.company_id.country_id.name"/> </t>
+            <t t-if="o.company_id.x_po_box"> <span style="color: red;"> <i class="fa-solid fa-envelope"/> </span> P.O. Box : <t t-esc="o.company_id.x_po_box"/>, </t>
+            <t t-if="o.company_id.phone"> <span style="color: red;"><i class="fa-solid fa-phone"/> </span> <t t-esc="o.company_id.phone"/>, </t>
+            <t t-if="o.company_id.email"> <span style="color: red;">✉ </span> <t t-esc="o.company_id.email"/>, </t>
+            <!-- <t t-if="o.company_id.website"> <span style="color: red;">🌐 </span> <t t-esc="o.company_id.website"/> </t> -->
+             <t t-if="o.company_id.website">
+            <span style="color: red;"><i class="fa fa-globe"></i></span>
+            <t t-esc="o.company_id.website"/> 
+        </t>
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </template>
+</odoo>
